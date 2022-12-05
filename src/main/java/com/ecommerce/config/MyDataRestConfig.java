@@ -24,7 +24,7 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
     @Value("${allowed.origins}")
     private String[] theAllowedOrigins;
 
-    private final EntityManager entityManager;
+    private EntityManager entityManager;
 
     @Autowired
     public MyDataRestConfig(EntityManager theEntityManager) {
@@ -37,8 +37,6 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 
         HttpMethod[] theUnsupportedActions = {HttpMethod.PUT, HttpMethod.POST, HttpMethod.DELETE, HttpMethod.PATCH};
 
-
-
         // disable HTTP methods for ProductCategory: PUT, POST and DELETE
         disableHttpMethods(Product.class, config, theUnsupportedActions);
         disableHttpMethods(ProductCategory.class, config, theUnsupportedActions);
@@ -48,13 +46,11 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         // call an internal helper method
         exposeIds(config);
 
-        //configure cors mapping
-        cors.addMapping(config.getBasePath() + "/**").allowedOrigins("theAllowedOrigins");
-        //cors.addMapping("/api/**").allowedOrigins("http://localhost:4200");
-
+        // configure cors mapping
+        cors.addMapping(config.getBasePath() + "/**").allowedOrigins(theAllowedOrigins);
     }
 
-    private static void disableHttpMethods(Class theClass, RepositoryRestConfiguration config, HttpMethod[] theUnsupportedActions) {
+    private void disableHttpMethods(Class theClass, RepositoryRestConfiguration config, HttpMethod[] theUnsupportedActions) {
         config.getExposureConfiguration()
                 .forDomainType(theClass)
                 .withItemExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions))
