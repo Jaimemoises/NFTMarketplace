@@ -23,7 +23,6 @@ public class NftMarketPlaceApplication {
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		corsConfiguration.setAllowCredentials(true);
 		corsConfiguration.setAllowedOrigins(Arrays.asList("https://ecommerce-frontendnft.herokuapp.com"));
-		corsConfiguration.setAllowedOrigins(Arrays.asList("https://jaimedev7.com"));
 		corsConfiguration.setAllowedHeaders(Arrays.asList("Origin", "Access-Control-Allow-Origin", "Content-Type",
 				"Accept", "Authorization", "Origin, Accept", "X-Requested-With",
 				"Access-Control-Request-Method", "Access-Control-Request-Headers"));
