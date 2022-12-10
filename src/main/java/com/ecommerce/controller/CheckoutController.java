@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.logging.Logger;
 
-//@CrossOrigin("http://localhost:4200")
-
 @RestController
 @RequestMapping("/api/checkout")
 public class CheckoutController {
