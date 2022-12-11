@@ -22,17 +22,17 @@ public class SecurityConfiguration {
                 .oauth2ResourceServer()
                 .jwt();
 
-        //add CORS filters
+        //adding CORS filters
         http.cors();
 
-        //add content negotiation strategy
+        //adding content negotiation strategy
         http.setSharedObject(ContentNegotiationStrategy.class,
                 new HeaderContentNegotiationStrategy());
 
-        //Force a non-empty response body for 401's to make the response more friendly
+        //Forcing a non-empty response body for 401's to make the response more friendly
         Okta.configureResourceServer401ResponseBody(http);
 
-        // Disable CSRF since not using cookies for session
+        // Disabling CSRF since not using cookies for session
         http.csrf().disable();
 
         return http.build();

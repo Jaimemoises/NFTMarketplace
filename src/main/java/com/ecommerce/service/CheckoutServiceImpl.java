@@ -26,7 +26,7 @@ public class CheckoutServiceImpl implements CheckoutService {
 
         this.customerRepository = customerRepository;
 
-        // initialize Stripe API with secret key
+        // initializing Stripe API with secret key
         Stripe.apiKey = secretKey;
     }
 
@@ -34,40 +34,40 @@ public class CheckoutServiceImpl implements CheckoutService {
     @Transactional
     public PurchaseResponse placeOrder(Purchase purchase) {
 
-        // retrieve the order info from dto
+        // retrieving the order info from dto
         Order order = purchase.getOrder();
 
-        // generate tracking number
+        // generating tracking number
         String orderTrackingNumber = generateOrderTrackingNumber();
         order.setOrderTrackingNumber(orderTrackingNumber);
 
-        // populate order with orderItems
+        // Populating order with orderItems
         Set<OrderItem> orderItems = purchase.getOrderItems();
         orderItems.forEach(item -> order.add(item));
 
-        // populate order with billingAddress and shippingAddress
+        // Populating order with billingAddress and shippingAddress
         order.setBillingAddress(purchase.getBillingAddress());
         order.setShippingAddress(purchase.getShippingAddress());
 
-        // populate customer with order
+        // Populating customer with order
         Customer customer = purchase.getCustomer();
 
-        // check if this is an existing customer
+        // Checking if this is an existing customer
         String theEmail = customer.getEmail();
 
         Customer customerFromDB = customerRepository.findByEmail(theEmail);
 
         if (customerFromDB != null) {
-            // we found them ... let's assign them accordingly
+            // Found! Assign!
             customer = customerFromDB;
         }
 
         customer.add(order);
 
-        // save to the database
+        // Saving to the database
         customerRepository.save(customer);
 
-        // return a response
+        // Returning a response
         return new PurchaseResponse(orderTrackingNumber);
     }
 
@@ -89,9 +89,6 @@ public class CheckoutServiceImpl implements CheckoutService {
 
     private String generateOrderTrackingNumber() {
 
-        // generate a random UUID number (UUID version-4)
-        // For details see: https://en.wikipedia.org/wiki/Universally_unique_identifier
-        //
         return UUID.randomUUID().toString();
     }
 }
