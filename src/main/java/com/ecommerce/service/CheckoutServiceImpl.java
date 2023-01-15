@@ -87,6 +87,8 @@ public class CheckoutServiceImpl implements CheckoutService {
         return PaymentIntent.create(params);
     }
 
+    //universally unique identifier
+
     private String generateOrderTrackingNumber() {
 
         return UUID.randomUUID().toString();
